@@ -1,0 +1,70 @@
+@import "./_reset";
+@import "./_custom.scss";
+@import "./_variables";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
+
+.carousel {
+    width: 100%;
+    max-width: 1200px;
+    @media (max-width: 992px) {
+        max-width: 891px;
+    }
+    @media (max-width: 768px) {
+        max-width: 594px;
+    }
+    @media (max-width: 768px) {
+        max-width: 297px;
+    }
+    &__galery {
+        background: $white;
+        padding: 35px 12px 30px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        width: 100%;
+    }
+
+    &__slide + &__slide {
+        border-left: 1px solid #e5e5e5;
+    }
+    &__list {
+        transition: 1s;
+        width: 9999px;
+        display: flex;
+    }
+}
+.slide {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    max-width: 297px;
+    padding: 0 23px 13px;
+    &__title {
+        display: flex;
+        flex: auto;
+        padding-top: 10px;
+        h3 {
+            font-weight: 400;
+            display: inline-block;
+            width: 100%;
+        }
+    }
+
+    &__date {
+        color: #848484;
+        letter-spacing: 0.3px;
+    }
+    &__text {
+        height: 80px;
+        overflow: auto;
+        margin-top: 30px;
+        p {
+            letter-spacing: 0.3px;
+        }
+    }
+}

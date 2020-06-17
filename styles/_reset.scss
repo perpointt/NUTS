@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    text-decoration: none;
+    list-style-type: none;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    background: none;
+    outline: none;
+}
+html {
+    font-size: 10px;
+}
+body {
+    font-family: sans-serif;
+}
+input,
+button {
+    box-shadow: none;
+    border: none;
+    background: none;
+    outline: none;
+}
+button {
+    cursor: pointer;
+}

@@ -4,6 +4,9 @@ class Slider {
     this.width = options.width
     this.count = options.count
 
+    this.cords = null
+    this.grab = false
+
     this.init(options)
   }
   init(options) {
@@ -14,19 +17,52 @@ class Slider {
     this.listElems.forEach((li) => {
       this.width = li.offsetWidth
     })
-
-    // this.fixUserTouch()
-    this.slideNext()
-    this.slidePrev()
+    this.grabEvent(this.list)
     if (options.autoplay) this.autoSlide()
   }
-  //   fixUserTouch() {
-  //     this.list.addEventListener("mouseup", this.touchMove)
-  //     this.list.addEventListener("mouseover", this.touchMove)
-  //   }
-  //   touchMove(e) {
-  //     console.log(e.type)
-  //   }
+  grabEvent(list) {
+    list.style.cursor = "grab"
+    list.addEventListener("mousedown", () => {
+      this.start(event, list)
+    })
+    list.addEventListener("mouseup", () => {
+      this.start(event, list)
+    })
+  }
+  start(event, list) {
+    if (event.type.search("mousedown") === 0) {
+      list.style.cursor = "grabbing"
+      this.grab = true
+      this.cords = event.clientX
+      list.addEventListener("mousemove", (event) => {
+        this.move(event, list)
+      })
+    } else if (event.type.search("mouseup") === 0) {
+      this.grab = false
+      list.style.cursor = "grab"
+      this.move(event, list)
+    }
+  }
+  move(event, list) {
+    let newCords = null
+    let cords = null
+
+    if (this.grab) {
+      newCords = event.clientX
+      switch (this.cords >= newCords) {
+        case true:
+          cords = this.cords - newCords
+
+          this.currentPosition -= (cords / this.width) * this.count
+          this.list.style.marginLeft = `${this.currentPosition}px`
+        case false:
+          cords = this.cords - newCords
+
+          this.currentPosition -= (cords / this.width) * this.count
+          this.list.style.marginLeft = `${this.currentPosition}px`
+      }
+    }
+  }
   autoSlide() {
     const recursion = () => {
       if (this.currentSlide < this.listElems.length - 4) {
@@ -46,35 +82,12 @@ class Slider {
       recursion()
     }, 4000)
   }
-  slidePrev() {
-    const prevButton = this.carousel.querySelector(".carousel__button_prev")
-
-    prevButton.addEventListener("click", () => {
-      if (this.currentSlide !== 0) {
-        this.currentPosition += this.width * this.count
-        this.list.style.marginLeft = `${this.currentPosition}px`
-
-        this.currentSlide--
-      }
-    })
-  }
-  slideNext() {
-    const nextButton = carousel.querySelector(".carousel__button_next")
-    nextButton.addEventListener("click", () => {
-      if (this.currentSlide < this.listElems.length - 4) {
-        this.currentPosition -= this.width * this.count
-        this.list.style.marginLeft = `${this.currentPosition}px`
-
-        this.currentSlide++
-      }
-    })
-  }
 }
 document.addEventListener("DOMContentLoaded", () => {
   const slider = new Slider({
     el: "#carousel",
     width: 297,
     count: 1,
-    autoplay: true,
+    autoplay: false,
   })
 })

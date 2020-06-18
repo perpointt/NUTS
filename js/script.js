@@ -12,7 +12,7 @@ class Slider {
     this.currentPosition = 0
 
     this.render()
-    this.grabEvent()
+    this.setEventListeners()
     this.autoPlay()
   }
   render() {
@@ -27,23 +27,41 @@ class Slider {
     this.list.style.width = `${listWidth}px`
   }
 
-  grabEvent() {
-    this.list.addEventListener("mousedown", () => {
-      this.list.style.cursor = "grabbing"
-      this.grab = true
-      this.cords = event.clientX
+  setEventListeners() {
+    this.list.addEventListener("mousedown", (click) => {
+      this.grabCords(click)
     })
-    this.list.addEventListener("mouseup", () => {
-      this.grab = false
-      this.list.style.cursor = "grab"
+    this.list.addEventListener("touchstart", (click) => {
+      this.grabCords(click)
     })
+
+    this.list.addEventListener("mouseup", (click) => {
+      this.grabCords(click)
+    })
+    this.list.addEventListener("touchend", (click) => {
+      this.grabCords(click)
+    })
+
     this.list.addEventListener("mousemove", (move) => {
       this.move(move)
     })
+    this.list.addEventListener("touchmove", (move) => {
+      this.move(move)
+    })
+  }
+  grabCords(click) {
+    if (!click.type.search("mousedown") || !click.type.search("touchstart")) {
+      this.list.style.cursor = "grabbing"
+      this.grab = true
+      this.cords = click.clientX || click.touches[0].screenX
+    } else {
+      this.grab = false
+      this.list.style.cursor = "grab"
+    }
   }
   move(move) {
     if (this.grab) {
-      if (this.cords > move.clientX) {
+      if (this.cords > (move.clientX || move.touches[0].screenX)) {
         this.nextSlide()
       } else {
         this.prevSlide()

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 * {
   box-sizing: border-box;
   padding: 0;
@@ -48,7 +48,7 @@ img {
 .carousel {
   width: 100%;
   max-width: 1200px; }
-  @media (max-width: 1200px) {
+  @media (max-width: 1250px) {
     .carousel {
       max-width: 905px; } }
   @media (max-width: 992px) {
@@ -84,12 +84,13 @@ img {
   height: 100%;
   width: 297px;
   padding: 0 23px 13px; }
-  .slide img {
+  .slide__img {
     max-width: 240px; }
   .slide__title {
     display: flex;
     flex: auto;
-    padding-top: 10px; }
+    padding-top: 10px;
+    font-size: 13px; }
     .slide__title h3 {
       font-weight: 400;
       display: inline-block;

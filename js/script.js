@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el: "#carousel",
     count: 1,
     range: 100,
-    autoplay: false,
+    autoplay: true,
     delay: 4,
   })
 })

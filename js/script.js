@@ -2,6 +2,7 @@ class Slider {
   constructor(options) {
     this.carousel = document.querySelector(`${options.el}`)
     this.count = options.count
+    this.range = options.range
     this.autoplay = options.autoplay
     this.delay = options.delay * 1000
 
@@ -62,9 +63,14 @@ class Slider {
   move(move) {
     if (this.grab) {
       if (this.cords > (move.clientX || move.touches[0].screenX)) {
-        this.nextSlide()
+        if (this.cords - (move.clientX || move.touches[0].screenX) > this.range)
+          this.nextSlide()
       } else {
-        this.prevSlide()
+        if (
+          this.cords - (move.clientX || move.touches[0].screenX) <
+          -this.range
+        )
+          this.prevSlide()
       }
     }
   }
@@ -109,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const slider = new Slider({
     el: "#carousel",
     count: 1,
+    range: 150,
     autoplay: false,
     delay: 4,
   })

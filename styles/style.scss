@@ -13,7 +13,7 @@
         max-width: 605px;
     }
     @media (max-width: 768px) {
-        max-width: 308px;
+        max-width: 304px;
     }
     &__galery {
         background: #fff;
@@ -24,6 +24,9 @@
     }
     &__slide + &__slide {
         margin-left: 1px;
+        @media (max-width: 768px) {
+            margin-left: 0;
+        }
     }
     &__list {
         transition: 1s;

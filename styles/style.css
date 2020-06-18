@@ -53,7 +53,7 @@ img {
       max-width: 605px; } }
   @media (max-width: 768px) {
     .carousel {
-      max-width: 308px; } }
+      max-width: 304px; } }
   .carousel__galery {
     background: #fff;
     padding: 35px 12px 30px;
@@ -62,6 +62,9 @@ img {
     width: 100%; }
   .carousel__slide + .carousel__slide {
     margin-left: 1px; }
+    @media (max-width: 768px) {
+      .carousel__slide + .carousel__slide {
+        margin-left: 0; } }
   .carousel__list {
     transition: 1s;
     display: flex;

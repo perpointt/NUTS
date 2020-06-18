@@ -1,93 +1,97 @@
 class Slider {
   constructor(options) {
     this.carousel = document.querySelector(`${options.el}`)
-    this.width = options.width
     this.count = options.count
-
-    this.cords = null
-    this.grab = false
+    this.autoplay = options.autoplay
+    this.delay = options.delay * 1000
 
     this.init(options)
   }
-  init(options) {
+  init() {
     this.currentSlide = 0
     this.currentPosition = 0
+
+    this.render()
+    this.grabEvent()
+    this.autoPlay()
+  }
+  render() {
     this.list = this.carousel.querySelector("ul")
-    this.listElems = this.carousel.querySelectorAll("li")
-    this.listElems.forEach((li) => {
-      this.width = li.offsetWidth
+    this.slides = this.carousel.querySelectorAll("li")
+    let listWidth = 0
+    this.slides.forEach((slide) => {
+      this.width = slide.offsetWidth
+      listWidth += this.width
     })
-    this.grabEvent(this.list)
-    if (options.autoplay) this.autoSlide()
+
+    this.list.style.width = `${listWidth}px`
   }
-  grabEvent(list) {
-    list.style.cursor = "grab"
-    list.addEventListener("mousedown", () => {
-      this.start(event, list)
-    })
-    list.addEventListener("mouseup", () => {
-      this.start(event, list)
-    })
-  }
-  start(event, list) {
-    if (event.type.search("mousedown") === 0) {
-      list.style.cursor = "grabbing"
+
+  grabEvent() {
+    this.list.addEventListener("mousedown", () => {
+      this.list.style.cursor = "grabbing"
       this.grab = true
       this.cords = event.clientX
-      list.addEventListener("mousemove", (event) => {
-        this.move(event, list)
-      })
-    } else if (event.type.search("mouseup") === 0) {
+    })
+    this.list.addEventListener("mouseup", () => {
       this.grab = false
-      list.style.cursor = "grab"
-      this.move(event, list)
-    }
+      this.list.style.cursor = "grab"
+    })
+    this.list.addEventListener("mousemove", (move) => {
+      this.move(move)
+    })
   }
-  move(event, list) {
-    let newCords = null
-    let cords = null
-
+  move(move) {
     if (this.grab) {
-      newCords = event.clientX
-      switch (this.cords >= newCords) {
-        case true:
-          cords = this.cords - newCords
-
-          this.currentPosition -= (cords / this.width) * this.count
-          this.list.style.marginLeft = `${this.currentPosition}px`
-        case false:
-          cords = this.cords - newCords
-
-          this.currentPosition -= (cords / this.width) * this.count
-          this.list.style.marginLeft = `${this.currentPosition}px`
+      if (this.cords > move.clientX) {
+        this.nextSlide()
+      } else {
+        this.prevSlide()
       }
     }
   }
-  autoSlide() {
-    const recursion = () => {
-      if (this.currentSlide < this.listElems.length - 4) {
-        this.currentPosition -= this.width * this.count
-        this.list.style.marginLeft = `${this.currentPosition}px`
-        this.currentSlide++
-      } else {
-        this.currentSlide = 0
-        this.list.style.marginLeft = `0px`
-        this.currentPosition = 0
+  autoPlay() {
+    if (this.autoplay) {
+      const autoToggleSlide = () => {
+        setTimeout(() => {
+          if (!this.toFirstSlide) {
+            this.prevSlide()
+          } else {
+            this.nextSlide()
+          }
+          autoToggleSlide()
+        }, this.delay)
       }
-      setTimeout(() => {
-        recursion()
-      }, 4000)
+      autoToggleSlide()
     }
-    setTimeout(() => {
-      recursion()
-    }, 4000)
+  }
+
+  nextSlide() {
+    if (this.currentSlide < this.slides.length - 4) {
+      this.currentPosition -= this.width * this.count
+      this.list.style.marginLeft = `${this.currentPosition}px`
+
+      this.currentSlide++
+      this.grab = false
+    }
+    if (this.currentSlide === this.slides.length - 4) this.toFirstSlide = false
+  }
+  prevSlide() {
+    if (this.currentSlide > 0) {
+      this.currentPosition += this.width * this.count
+      this.list.style.marginLeft = `${this.currentPosition}px`
+
+      this.currentSlide--
+      this.grab = false
+    }
+    if (this.currentSlide === 0) this.toFirstSlide = true
   }
 }
 document.addEventListener("DOMContentLoaded", () => {
   const slider = new Slider({
     el: "#carousel",
-    width: 297,
     count: 1,
     autoplay: false,
+    delay: 4,
   })
 })

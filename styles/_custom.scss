@@ -1,12 +1,13 @@
 @import "./_variables";
+html {
+    height: 100%;
+}
 body {
     font-family: "Roboto", sans-serif;
-    font-size: 1.8rem;
-    line-height: 22px;
     background: $background;
-    @include center;
-    min-height: 100vh;
+    height: 100%;
     padding: 0 15px;
+    @include center;
 }
 img {
     width: 100%;

@@ -19,7 +19,9 @@ class Slider {
   render() {
     this.list = this.carousel.querySelector("ul")
     this.slides = this.carousel.querySelectorAll("li")
+
     let listWidth = 0
+
     this.slides.forEach((slide) => {
       this.width = slide.offsetWidth
       listWidth += this.width
@@ -54,6 +56,7 @@ class Slider {
     if (!click.type.search("mousedown") || !click.type.search("touchstart")) {
       this.list.style.cursor = "grabbing"
       this.grab = true
+
       this.cords = click.clientX || click.touches[0].screenX
     } else {
       this.grab = false
@@ -98,6 +101,7 @@ class Slider {
       this.currentSlide++
       this.grab = false
     }
+
     if (this.currentSlide === this.slides.length - 4) this.toFirstSlide = false
   }
   prevSlide() {
@@ -108,6 +112,7 @@ class Slider {
       this.currentSlide--
       this.grab = false
     }
+
     if (this.currentSlide === 0) this.toFirstSlide = true
   }
 }
@@ -115,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const slider = new Slider({
     el: "#carousel",
     count: 1,
-    range: 150,
-    autoplay: false,
+    range: 100,
+    autoplay: true,
     delay: 4,
   })
 })

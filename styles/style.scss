@@ -13,18 +13,17 @@
         max-width: 605px;
     }
     @media (max-width: 768px) {
-        max-width: 310px;
+        max-width: 308px;
     }
     &__galery {
-        background: $white;
+        background: #fff;
         padding: 35px 12px 30px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         overflow: hidden;
         width: 100%;
     }
-
     &__slide + &__slide {
-        border-left: 1px solid #e5e5e5;
+        margin-left: 1px;
     }
     &__list {
         transition: 1s;
@@ -33,6 +32,7 @@
         -khtml-user-select: none;
         -webkit-user-select: none;
         user-select: none;
+        background: #e5e5e5;
     }
 }
 .slide {
@@ -46,6 +46,11 @@
     height: 100%;
     width: 297px;
     padding: 0 23px 13px;
+    background: #fff;
+    @media (max-width: 576px) {
+        max-width: 280px;
+        padding: 0 15px 13px;
+    }
     &__img {
         max-width: 240px;
     }
@@ -61,15 +66,11 @@
         }
     }
     &__date {
-        color: #848484;
-        letter-spacing: 0.3px;
+        color: $date;
     }
     &__text {
         height: 80px;
         overflow: auto;
         margin-top: 10px;
-        p {
-            letter-spacing: 0.3px;
-        }
     }
 }
